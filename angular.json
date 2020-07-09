@@ -130,5 +130,10 @@
       }
     }
   },
-  "defaultProject": "DTech"
+  "defaultProject": "DTech",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
