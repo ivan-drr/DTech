@@ -8,12 +8,10 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env/environment';
-import { HomeComponent } from '@app/home/components/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
