@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from './card/card.component';
-import { Light } from './light.btn/light.btn.component';
-import { Ldr } from './ldr.btn/ldr.btn.component';
-import { Motion } from './motion.btn/motion.btn.component';
-import { Brightness } from './brightness.btn/brightness.btn.component';
-
+import { BrightnessBarComponent } from './brightness-bar/brightness-bar.component';
+import { LdrBtnComponent } from './ldr-btn/ldr-btn.component';
+import { LightBtnComponent } from './light-btn/light-btn.component';
+import { MotionBtnComponent } from './motion-btn/motion-btn.component';
 
 
 @NgModule({
-  declarations: [CardComponent, Light.BtnComponent, Ldr.BtnComponent, Motion.BtnComponent, Brightness.BtnComponent],
+  declarations: [CardComponent, BrightnessBarComponent, LdrBtnComponent, LightBtnComponent, MotionBtnComponent],
   imports: [
     CommonModule
   ]

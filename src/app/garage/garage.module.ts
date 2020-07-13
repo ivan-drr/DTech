@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OpenGarage } from './open-garage.btn/open-garage.btn.component';
-import { CloseGarage } from './close-garage.btn/close-garage.btn.component';
+import { AppRoutingModule } from '@app/app-routing.module';
+
 import { RemoteControlGarageComponent } from './remote-control-garage/remote-control-garage.component';
-
-
+import { CloseGarageBtnComponent } from './close-garage-btn/close-garage-btn.component';
+import { OpenGarageBtnComponent } from './open-garage-btn/open-garage-btn.component';
+import { GaragePageComponent } from './garage-page/garage-page.component';
 
 @NgModule({
-  declarations: [OpenGarage.BtnComponent, CloseGarage.BtnComponent, RemoteControlGarageComponent],
+  declarations: [RemoteControlGarageComponent, CloseGarageBtnComponent, OpenGarageBtnComponent, GaragePageComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    AppRoutingModule
   ]
 })
 export class GarageModule { }

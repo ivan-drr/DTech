@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddRoom } from './add-room.btn/add-room.btn.component';
+import { AppRoutingModule } from '@app/app-routing.module';
 
-
+import { RoomCardModule } from './room-card/room-card.module';
+import { AddRoomBtnComponent } from './add-room-btn/add-room-btn.component';
+import { ControlPageComponent } from './control-page/control-page.component';
 
 @NgModule({
-  declarations: [AddRoom.BtnComponent],
+  declarations: [AddRoomBtnComponent, ControlPageComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    RoomCardModule,
+    AppRoutingModule
   ]
 })
 export class ControlModule { }

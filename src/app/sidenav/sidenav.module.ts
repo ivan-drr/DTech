@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Control } from './control.btn/control.btn.component';
-import { Garage } from './garage.btn/garage.btn.component';
-import { Tv } from './tv.btn/tv.btn.component';
-import { Exit } from './exit.btn/exit.btn.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { SignOut } from './sign-out.btn/sign-out.btn.component';
+import { AppRoutingModule } from '@app/app-routing.module';
+
+import { ControlBtnComponent } from './control-btn/control-btn.component';
+import { GarageBtnComponent } from './garage-btn/garage-btn.component';
+import { TvBtnComponent } from './tv-btn/tv-btn.component';
+import { ExitBtnComponent } from './exit-btn/exit-btn.component';
+import { SignOutBtnComponent } from './sign-out-btn/sign-out-btn.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
 
 
 
 @NgModule({
-  declarations: [Control.BtnComponent, Garage.BtnComponent, Tv.BtnComponent, Exit.BtnComponent, NavbarComponent, SignOut.BtnComponent],
+  declarations: [ControlBtnComponent, GarageBtnComponent, TvBtnComponent, ExitBtnComponent, SignOutBtnComponent, SidenavComponent],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    AppRoutingModule
+  ],
 })
 export class SidenavModule { }
