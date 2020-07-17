@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { spawn } = require('child_process');
 const mongo = require('mongoose');
 
 const db = mongo.connect("mongodb://localhost:27017/dtech", (err, response) => {
@@ -65,7 +66,10 @@ app.put('/mongo/changeRoomState', (res, req) => {
 
   db.room.update({name: req.body}, {$set: {state: !room.state}}, err => {
     if (err) res.send({ok: false, error: 'Error updating state of ' + req.body + ': ' + err});
-    else res.send({ok: true});
+    else {
+      spawn('python', ['test.py']);
+      res.send({ok: true});
+    }
   });
 });
 
