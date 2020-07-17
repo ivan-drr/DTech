@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LoginModule } from '@app/login/login.module';
 import { SidenavModule } from '@app/sidenav/sidenav.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env/environment';
@@ -22,7 +23,8 @@ import { environment } from '@env/environment';
     ScrollingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     LoginModule,
-    SidenavModule
+    SidenavModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppRoutingModule } from '@app/app-routing.module';
+import { RouterModule } from '@angular/router';
 
 import { ControlBtnComponent } from './control-btn/control-btn.component';
 import { GarageBtnComponent } from './garage-btn/garage-btn.component';
@@ -15,7 +15,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
   declarations: [ControlBtnComponent, GarageBtnComponent, TvBtnComponent, ExitBtnComponent, SignOutBtnComponent, SidenavComponent],
   imports: [
     CommonModule,
-    AppRoutingModule
+    RouterModule
   ],
 })
 export class SidenavModule { }
