@@ -46,9 +46,9 @@ const remotedeviceSchema = new Schema({
       request: {type: Boolean}
     }, { versionKey: false });
 
-let room = mongo.model('room', roomSchema, 'room');
-let transitarea = mongo.model('room', transitareaSchema, 'room');
-let remotedevice = mongo.model('room', remotedeviceSchema, 'room');
+const room = mongo.model('room', roomSchema, 'room');
+const transitarea = mongo.model('transitarea', transitareaSchema, 'transitarea');
+const remotedevice = mongo.model('remotedevice', remotedeviceSchema, 'remotedevice');
 
 
 app.put('/mongo/changeRoomState', (req, res) => {
