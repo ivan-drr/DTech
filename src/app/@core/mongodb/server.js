@@ -55,21 +55,23 @@ const allSchemas = [
   }
 ];
 
-allSchemas.forEach(s => {
-  mongo.model(s.name, s.schema, s.name);
-});
+const room = mongo.model('room', allSchemas[0].schema, 'room');
+
+//allSchemas.forEach(s => {
+//  mongo.model(s.name, s.schema, s.name);
+//});
 
 app.put('/mongo/changeRoomState', (res, req) => {
   console.log('server.js');
   //if (!req.body) res.send({"ok": false, "error": 'No request body found'});
 
   console.log('there is a body');
-  const doc = db.room.find({"name": req.body}).limit(1).next(err => {
+  const doc = room.find({"name": req.body}).limit(1).next(err => {
     if (err) res.send({"ok": false, "error": 'Error finding room ' + req.body + ': ' + err});
     console.log('found one');
   });
 
-  db.room.update({"name": req.body}, {$set: {"state": !doc.state}}, err => {
+  room.update({"name": req.body}, {$set: {"state": !doc.state}}, err => {
     if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body + ': ' + err});
     else {
       console.log('updated');
