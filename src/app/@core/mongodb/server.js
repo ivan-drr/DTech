@@ -75,7 +75,7 @@ app.put('/mongo/changeRoomState', (req, res) => {
     if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body.name + ': ' + err});
     else {
       console.log('updated');
-      spawn('python', ['../rpi/test.py']);
+      spawn('python', ['/home/pi/dtech/src/app/@core/rpi/test.py']);
       res.send({"ok": true});
     }
   });
