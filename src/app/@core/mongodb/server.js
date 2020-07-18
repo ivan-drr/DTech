@@ -64,7 +64,7 @@ app.put('/mongo/changeRoomState', (res, req) => {
   //if (!req.body) res.send({"ok": false, "error": 'No request body found'});
 
   console.log('there is a body');
-  const room = db.room.findOne({"name": req.body}, err => {
+  const room = db.room.find({"name": req.body}).limit(1).next(err => {
     if (err) res.send({"ok": false, "error": 'Error finding room ' + req.body + ': ' + err});
     console.log('found one');
   });
