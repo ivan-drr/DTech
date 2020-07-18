@@ -10,4 +10,4 @@ room = mycol.find_one({"name": "salon"})
 if room:
     gpio.setmode(gpio.BOARD)
     gpio.setup(12, gpio.OUT)
-    gpio.output(12, room.state)
+    gpio.output(12, room["state"])
