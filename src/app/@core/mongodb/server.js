@@ -13,12 +13,11 @@ app.use(bodyParser());
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use((res, next) => {
-  console.log(res);
-  res.setHeader('Access-control-Allow-Origin', 'http://localhost:4200');
-  res.setHeader('Access-control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-control-Allow-Headers', 'X-Requested-With,content-type');
-  res.setHeader('Access-control-Allow-Credentials', true);
+app.use((req, next) => {
+  req.setHeader('Access-control-Allow-Origin', 'http://localhost:4200');
+  req.setHeader('Access-control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  req.setHeader('Access-control-Allow-Headers', 'X-Requested-With,content-type');
+  req.setHeader('Access-control-Allow-Credentials', true);
   next();
 });
 
