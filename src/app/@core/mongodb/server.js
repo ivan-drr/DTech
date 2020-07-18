@@ -61,7 +61,7 @@ allSchemas.forEach(s => {
 
 app.put('/mongo/changeRoomState', (res, req) => {
   console.log('server.js');
-  if (!req.body) return;
+  //if (!req.body) res.send({"ok": false, "error": 'No request body found'});
 
   console.log('there is a body');
   const room = db.room.findOne({"name": req.body}, err => {
