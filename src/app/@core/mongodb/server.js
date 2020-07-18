@@ -22,10 +22,7 @@ app.use((req, res, next) => {
 });
 
 const Schema = mongo.Schema;
-const allSchemas = [
-  {
-    name: 'room',
-    schema: new Schema({
+const roomSchema = new Schema({
       name: { type: String },
       state: { type: Boolean },
       brightness: { type: Number },
@@ -34,47 +31,36 @@ const allSchemas = [
         down: { type: Boolean },
         running: {type: Boolean}
       }
-    }, { versionKey: false })
-  },
-  {
-    name: 'transitarea',
-    schema: new Schema({
+    }, { versionKey: false });
+
+const transitareaSchema = new Schema({
       name: { type: String },
       state: { type: Boolean },
       brightness: { type: Number },
       sensor: {type: Boolean}
-    }, { versionKey: false })
-  },
-  {
-    name: 'remotedevice',
-    schema: new Schema({
+    }, { versionKey: false });
+
+const remotedeviceSchema = new Schema({
       name: { type: String },
       code: { type: String },
       request: {type: Boolean}
-    }, { versionKey: false })
-  }
-];
+    }, { versionKey: false });
 
-const room = mongo.model('room', allSchemas[0].schema, 'room');
+const room = mongo.model('room', roomSchema, 'room');
+const transitarea = mongo.model('room', transitareaSchema, 'room');
+const remotedevice = mongo.model('room', remotedeviceSchema, 'room');
 
-//allSchemas.forEach(s => {
-//  mongo.model(s.name, s.schema, s.name);
-//});
 
 app.put('/mongo/changeRoomState', (req, res) => {
-  console.log('server.js');
-  //if (!req.body) res.send({"ok": false, "error": 'No request body found'});
+  if (!req.body) res.send({"ok": false, "error": 'No request body found'});
 
-  console.log('there is a body');
   const doc = room.findOne({"name": req.body.name}, err => {
     if (err) res.send({"ok": false, "error": 'Error finding room ' + req.body.name + ': ' + err});
-    console.log('found one');
   });
 
   room.update({"name": req.body.name}, {$set: {"state": !doc.state}}, err => {
     if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body.name + ': ' + err});
     else {
-      console.log('updated');
       spawn('python', ['/home/pi/dtech/src/app/@core/rpi/test.py']);
       res.send({"ok": true});
     }
