@@ -9,6 +9,6 @@ export class MongoService {
   constructor(private httpClient: HttpClient) { }
 
   changeRoomState(name: string): void {
-    this.httpClient.put('http://localhost:8080/mongo/changeRoomState/', {name: name}).subscribe(data => data);
+    this.httpClient.put('http://192.168.2.39:8080/mongo/changeRoomState/', {name: name}).subscribe(data => data);
   }
 }
