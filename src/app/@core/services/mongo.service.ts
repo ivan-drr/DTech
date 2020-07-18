@@ -9,6 +9,6 @@ export class MongoService {
   constructor(private httpClient: HttpClient) { }
 
   changeRoomState(name: string): void {
-    console.log(this.httpClient.put('http://localhost:8080/mongo/changeRoomState/', name));
+    this.httpClient.put('http://localhost:8080/mongo/changeRoomState/', {name: name});
   }
 }
