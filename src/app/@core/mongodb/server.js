@@ -71,8 +71,8 @@ app.put('/mongo/changeRoomState', (req, res) => {
     console.log('found one');
   });
 
-  room.update({"name": req.body}, {$set: {"state": !doc.state}}, err => {
-    if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body + ': ' + err});
+  room.update({"name": req.body.name}, {$set: {"state": !doc.state}}, err => {
+    if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body.name + ': ' + err});
     else {
       console.log('updated');
       spawn('python', ['../rpi/test.py']);
