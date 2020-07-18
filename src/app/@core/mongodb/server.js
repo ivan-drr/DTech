@@ -63,15 +63,18 @@ app.put('/mongo/changeRoomState', (res, req) => {
   console.log('server.js');
   if (!req.body) return;
 
-  const room = db.room.findOne({name: req.body}, err => {
-    if (err) res.send({ok: false, error: 'Error finding room ' + req.body + ': ' + err});
+  console.log('there is a body');
+  const room = db.room.findOne({"name": req.body}, err => {
+    if (err) res.send({"ok": false, "error": 'Error finding room ' + req.body + ': ' + err});
+    console.log('found one');
   });
 
-  db.room.update({name: req.body}, {$set: {state: !room.state}}, err => {
-    if (err) res.send({ok: false, error: 'Error updating state of ' + req.body + ': ' + err});
+  db.room.update({"name": req.body}, {$set: {"state": !room.state}}, err => {
+    if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body + ': ' + err});
     else {
+      console.log('updated');
       spawn('python', ['../rpi/test.py']);
-      res.send({ok: true});
+      res.send({"ok": true});
     }
   });
 });
