@@ -64,12 +64,12 @@ app.put('/mongo/changeRoomState', (res, req) => {
   //if (!req.body) res.send({"ok": false, "error": 'No request body found'});
 
   console.log('there is a body');
-  const doc = db.collection("room").find({"name": req.body}).limit(1).next(err => {
+  const doc = db.room.find({"name": req.body}).limit(1).next(err => {
     if (err) res.send({"ok": false, "error": 'Error finding room ' + req.body + ': ' + err});
     console.log('found one');
   });
 
-  db.collection("room").update({"name": req.body}, {$set: {"state": !doc.state}}, err => {
+  db.room.update({"name": req.body}, {$set: {"state": !doc.state}}, err => {
     if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body + ': ' + err});
     else {
       console.log('updated');
