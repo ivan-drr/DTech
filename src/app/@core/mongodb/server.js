@@ -14,7 +14,7 @@ app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use((req, res, next) => {
-  res.set('Access-control-Allow-Origin', 'http://localhost:4200');
+  res.set('Access-control-Allow-Origin', '*');
   res.set('Access-control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.set('Access-control-Allow-Headers', 'Content-Type');
   res.set('Access-control-Allow-Credentials', true);
