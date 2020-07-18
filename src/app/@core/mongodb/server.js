@@ -61,7 +61,7 @@ const room = mongo.model('room', allSchemas[0].schema, 'room');
 //  mongo.model(s.name, s.schema, s.name);
 //});
 
-app.put('/mongo/changeRoomState', (res, req) => {
+app.put('/mongo/changeRoomState', (req, res) => {
   console.log('server.js');
   //if (!req.body) res.send({"ok": false, "error": 'No request body found'});
 
