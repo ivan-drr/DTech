@@ -54,17 +54,16 @@ const remotedevice = mongo.model('remotedevice', remotedeviceSchema, 'remotedevi
 app.put('/mongo/changeRoomState', (req, res) => {
   if (!req.body) res.send({"ok": false, "error": 'No request body found'});
 
-  const doc = room.findOne({"name": req.body.name}, err => {
+  room.findOne({"name": req.body.name}, (err, doc) => {
     if (err) res.send({"ok": false, "error": 'Error finding room ' + req.body.name + ': ' + err});
-  });
-  console.log(doc.state);
-
-  room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, err => {
-    if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body.name + ': ' + err});
     else {
-      console.log(doc.state);
-      spawn('python', ['/home/pi/dtech/src/app/@core/rpi/test.py']);
-      res.send({"ok": true});
+      room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, err => {
+        if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body.name + ': ' + err});
+        else {
+          spawn('python', ['/home/pi/dtech/src/app/@core/rpi/test.py']);
+          res.send({"ok": true});
+        }
+      });
     }
   });
 });
