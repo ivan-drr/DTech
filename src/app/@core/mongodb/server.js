@@ -21,44 +21,34 @@ app.use((req, res, next) => {
   next();
 });
 
-
 const Schema = mongo.Schema;
-if (!room) {
-  const roomSchema = new Schema({
-        name: { type: String },
-        state: { type: Boolean },
-        brightness: { type: Number },
-        sensor: {type: Boolean},
-        blind: {
-          down: { type: Boolean },
-          running: {type: Boolean}
-        }
-      }, { versionKey: false });
+const roomSchema = new Schema({
+      name: { type: String },
+      state: { type: Boolean },
+      brightness: { type: Number },
+      sensor: {type: Boolean},
+      blind: {
+        down: { type: Boolean },
+        running: {type: Boolean}
+      }
+    }, { versionKey: false });
 
-  const room = mongo.model('room', roomSchema, 'room');
-}
+const transitareaSchema = new Schema({
+      name: { type: String },
+      state: { type: Boolean },
+      brightness: { type: Number },
+      sensor: {type: Boolean}
+    }, { versionKey: false });
 
-if (!transitarea) {
-  const transitareaSchema = new Schema({
-    name: { type: String },
-    state: { type: Boolean },
-    brightness: { type: Number },
-    sensor: {type: Boolean}
-  }, { versionKey: false });
+const remotedeviceSchema = new Schema({
+      name: { type: String },
+      code: { type: String },
+      request: {type: Boolean}
+    }, { versionKey: false });
 
-  const transitarea = mongo.model('room', transitareaSchema, 'room');
-}
-
-if (!remotedevice) {
-  const remotedeviceSchema = new Schema({
-    name: { type: String },
-    code: { type: String },
-    request: {type: Boolean}
-  }, { versionKey: false });
-
-  const remotedevice = mongo.model('room', remotedeviceSchema, 'room');
-}
-
+let room = mongo.model('room', roomSchema, 'room');
+let transitarea = mongo.model('room', transitareaSchema, 'room');
+let remotedevice = mongo.model('room', remotedeviceSchema, 'room');
 
 
 app.put('/mongo/changeRoomState', (req, res) => {
