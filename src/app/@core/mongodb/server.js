@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const { spawn } = require('child_process');
 const mongo = require('mongoose');
 
-const db = mongo.connect("mongodb://localhost:27017/dtech", (err, response) => {
+const db = mongo.connect('mongodb://localhost:27017/dtech?' + 'replicaSet=rs', (err, response) => {
   if (err) console.log(err);
   else console.log('Connected to ' + response.name);
 });
@@ -52,24 +52,53 @@ const remotedevice = mongo.model('remotedevice', remotedeviceSchema, 'remotedevi
 
 
 app.put('/mongo/changeRoomState', (req, res) => {
-  if (!req.body) res.send({"ok": false, "error": 'No request body found'});
+  if (!req.body) {
+    res.send({"ok": false, "error": 'No request body found'});
+    return false;
+  } 
 
-  room.findOne({"name": req.body.name}, (err, doc) => {
+  let session = null;
+  let doc = false;
+  room.findOne({"name": req.body.name}, (err, document) => {
     if (err) res.send({"ok": false, "error": 'Error finding room ' + req.body.name + ': ' + err});
-    else {
-      room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, err => {
-        if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body.name + ': ' + err});
-        else {
-          const lightChanged = spawn('python', ['/home/pi/dtech/src/app/@core/rpi/test.py', req.body.name]);
-          lightChanged.stdout.on('data', function(data) { 
-            console.log(data.toString());
-          });
+    else doc = document;
+  })
+    .then(() => mongo.startSession())
+    .then(_session => {
+      if (!doc) return false;
 
-          res.send({"ok": true});
-        }
+      session = _session;
+      console.log('start transaction');
+      session.startTransaction();
+      room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, err => {
+        if (err) {
+          res.send({"ok": false, "error": 'Error updating state of ' + req.body.name + ': ' + err});
+          return false;
+        } 
+  
+        const lightChanged = spawn('python', ['/home/pi/dtech/src/app/@core/rpi/test.py', req.body.name]);
+        lightChanged.stdout.on('data', data => { 
+          const pinOperation = data.toString().replace(/\s/g,'') === 'True';
+          if (pinOperation) res.send({"ok": true});
+          else {
+            res.send({"ok": false, "error": 'Error(Hardware) turning light on of room ' + req.body.name});
+            return false;
+          } 
+        });
+      }).session(session)
+      .then(update => {
+        console.log('commit or abort transaction');
+        if(!update) session.abortTransaction();
+        else session.commitTransaction();
+      }).then(() => {
+        console.log('end transaction');
+        session.endSession();
       });
-    }
-  });
+    })
+    .catch(err => {
+      res.send({"ok": false, "error": 'Error on mongodb transaction updating state of ' + req.body.name + ': ' + err});
+    })
+    
 });
 
 app.listen(8080), () => {
