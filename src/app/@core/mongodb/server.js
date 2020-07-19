@@ -69,29 +69,31 @@ app.put('/mongo/changeRoomState', (req, res) => {
         res.send({"ok": false, "error": 'Error updating state of ' + req.body.name + ': ' + err});
         return false
       } 
-      
-      const lightChanged = spawn('python', [SCRIPTS_PATH + 'change-room-state.py', req.body.name]);
-      lightChanged.stdout.on('data', data => { 
-        const hardwareWorks = data.toString().replace(/\s/g,'') === 'True';
-        if (hardwareWorks) {
-          res.send({"ok": true});
-          return true;
-        } 
 
-        room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, err => {
-          if (err) {
-            res.send({"ok": false, "error": 'Error re-updating state of ' + req.body.name 
-              + '(Please re-run this request to fix this database value): ' + err});
-            return false;
-          }
-        });
-        if (!hardwareWorks) {
+      try {
+        const lightChanged = spawn('python', [SCRIPTS_PATH + 'change-room-state.py', req.body.name]);
+        lightChanged.stdout.on('data', data => { 
+          const hardwareWorks = data.toString().replace(/\s/g,'') === 'True';
+          if (hardwareWorks) {
+            res.send({"ok": true});
+            return true;
+          } 
+  
+          room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, err => {
+            if (err) {
+              res.send({"ok": false, "error": 'Error re-updating state of ' + req.body.name 
+                + '(Please re-run this request to fix this database value): ' + err});
+              return false;
+            }
+          });
+          
           res.send({"ok": false, "error": "Hardware error: Light of " + req.body.name + "couldn't change state"});
           return false
-        }
-        res.send({"ok": false, "error": "Error on script: " + SCRIPTS_PATH + "change-room-state.py"});
-        return true;
-      });
+        });
+      } catch (error) {
+        res.send({"ok": false, "error": "Error on script: " + SCRIPTS_PATH + "change-room-state.py" + ": " + error});
+        return false;
+      }
     });
   });
 });
