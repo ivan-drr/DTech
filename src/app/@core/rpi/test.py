@@ -14,7 +14,7 @@ def changeLight():
         gpio.setup(12, gpio.OUT)
         gpio.output(12, room["state"])
 
-    return gpio.input(12) === room["state"]
+    return gpio.input(12) == room["state"]
 
 if __name__ =='__main__' :
     changeLight = changeLight()
