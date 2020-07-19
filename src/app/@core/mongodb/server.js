@@ -60,7 +60,11 @@ app.put('/mongo/changeRoomState', (req, res) => {
       room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, err => {
         if (err) res.send({"ok": false, "error": 'Error updating state of ' + req.body.name + ': ' + err});
         else {
-          spawn('python', ['/home/pi/dtech/src/app/@core/rpi/test.py']);
+          const lightChanged = spawn('python', ['/home/pi/dtech/src/app/@core/rpi/test.py', req.body.name]);
+          lightChanged.stdout.on('data', function(data) { 
+            console.log(data.toString());
+          });
+
           res.send({"ok": true});
         }
       });
