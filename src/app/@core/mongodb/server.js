@@ -85,7 +85,11 @@ app.put('/mongo/changeRoomState', (req, res) => {
             return false;
           }
         });
-        res.send({"ok": false, "error": "Hardware error: Light of " + req.body.name + "couldn't change state"});
+        if (!hardwareWorks) {
+          res.send({"ok": false, "error": "Hardware error: Light of " + req.body.name + "couldn't change state"});
+          return false
+        }
+        res.send({"ok": false, "error": "Error on script: " + SCRIPTS_PATH + "change-room-state.py"});
         return true;
       });
     });
