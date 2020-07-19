@@ -62,13 +62,19 @@ app.put('/mongo/changeRoomState', (req, res) => {
     if (err) {
       res.send({"ok": false, "error": 'Error finding room ' + req.body.name + ': ' + err});
       return false;
-    } 
-    
-    room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, err => {
+    } else if (doc === null) {
+      res.send({"ok": false, "error": "Room " + req.body.name + " don't exist"});
+      return false;
+    }
+
+    room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, (err, doc) => {
       if (err) {
         res.send({"ok": false, "error": 'Error updating state of ' + req.body.name + ': ' + err});
         return false
-      } 
+      } else if (doc === null) {
+        res.send({"ok": false, "error": "Room " + req.body.name + " don't exist"});
+        return false;
+      }
 
       try {
         const lightChanged = spawn('python', [SCRIPTS_PATH + 'change-room-state.py', req.body.name]);
@@ -79,10 +85,13 @@ app.put('/mongo/changeRoomState', (req, res) => {
             return true;
           } 
   
-          room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, err => {
+          room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, (err, doc) => {
             if (err) {
               res.send({"ok": false, "error": 'Error re-updating state of ' + req.body.name 
                 + '(Please re-run this request to fix this database value): ' + err});
+              return false;
+            } else if (doc === null) {
+              res.send({"ok": false, "error": "Room " + req.body.name + " don't exist"});
               return false;
             }
           });
@@ -94,7 +103,7 @@ app.put('/mongo/changeRoomState', (req, res) => {
         res.send({"ok": false, "error": "Error on script: " + SCRIPTS_PATH + "change-room-state.py" + ": " + error});
         return false;
       }
-    });
+    });  
   });
 });
 
