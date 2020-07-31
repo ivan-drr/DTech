@@ -24,31 +24,42 @@ app.use((req, res, next) => {
 
 const Schema = mongo.Schema;
 const roomSchema = new Schema({
-      name: { type: String },
-      state: { type: Boolean },
-      brightness: { type: Number },
-      sensor: {type: Boolean},
-      blind: {
-        down: { type: Boolean },
-        running: {type: Boolean}
-      }
-    }, { versionKey: false });
+  name: { type: String },
+}, { versionKey: false });
 
-const transitareaSchema = new Schema({
-      name: { type: String },
-      state: { type: Boolean },
-      brightness: { type: Number },
-      sensor: {type: Boolean}
-    }, { versionKey: false });
+const lightSchema = new Schema({
+  name: { type: String },
+  room: { type: String },
+  state: { type: Boolean },
+  switch: { type: Boolean },
+  brightness: { type: Number },
+  sensor: {
+    active: { type: Boolean },
+    detect: {type: Boolean},
+    transitarea: { type: Boolean }
+  }
+}, { versionKey: false });
+
+const blindSchema = new Schema({
+  name: { type: String },
+  room: { type: String },
+  opened: { type: Boolean },
+  closed: { type: Boolean },
+  running: {type: Boolean},
+  //open: { type: Boolean },
+  //close: { type: Boolean }
+}, { versionKey: false });
 
 const remotedeviceSchema = new Schema({
-      name: { type: String },
-      code: { type: String },
-      request: {type: Boolean}
-    }, { versionKey: false });
+  name: { type: String },
+  room: { type: String },
+  code: { type: String },
+  request: {type: Boolean}
+}, { versionKey: false });
 
 const room = mongo.model('room', roomSchema, 'room');
-const transitarea = mongo.model('transitarea', transitareaSchema, 'transitarea');
+const light = mongo.model('light', lightSchema, 'light');
+const blind = mongo.model('blind', blindSchema, 'blind');
 const remotedevice = mongo.model('remotedevice', remotedeviceSchema, 'remotedevice');
 
 
