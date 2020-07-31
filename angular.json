@@ -34,7 +34,10 @@
               "src/custom-theme.scss",
               "src/assets/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/three/build/three.min.js",
+              "./src/assets/vendors/js/vanta.net.min.js"
+            ]
           },
           "configurations": {
             "production": {

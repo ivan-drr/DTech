@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { SigninFormComponent } from './signin-form/signin-form.component';
 import { SignupBtnComponent } from './signup-btn/signup-btn.component';
@@ -16,7 +17,8 @@ import { SigninGoogleFormComponent } from './signin-google-form/signin-google-fo
     CommonModule,
     MatCardModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule
   ],
   exports: [
     SigninFormComponent
