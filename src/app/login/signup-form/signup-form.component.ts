@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+const assets = "../../assets/";
 
 @Component({
   selector: 'app-signup-form',
   templateUrl: './signup-form.component.html',
   styleUrls: ['./signup-form.component.scss']
 })
-export class SignupFormComponent implements OnInit {
+export class SignupFormComponent {
 
-  constructor() { }
+  GooglePlusImage = assets + "icons/google-plus.png";
+  AccessIcon = assets + "icons/access.png";
+  password = '';
+  user = '';
 
-  ngOnInit(): void {
-  }
+  userFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
 
 }

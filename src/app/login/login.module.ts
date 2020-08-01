@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +16,7 @@ import { SigninGoogleFormComponent } from './signin-google-form/signin-google-fo
   declarations: [SigninFormComponent, SigninGoogleBtnComponent, SigninGoogleFormComponent, SignupBtnComponent, SignupFormComponent],
   imports: [
     CommonModule,
+    RouterModule,
     MatCardModule,
     MatInputModule,
     MatIconModule,

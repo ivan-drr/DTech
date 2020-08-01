@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 const assets = "../../assets/";
 
@@ -10,6 +10,7 @@ const assets = "../../assets/";
 
 export class SigninFormComponent {
   GooglePlusImage = assets + "icons/google-plus.png";
+  AccessIcon = assets + "icons/access.png";
   password = '';
   user = '';
 

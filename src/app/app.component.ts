@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import NET from 'vanta/dist/vanta.net.min';
+import { Router } from '@angular/router';
 const assets = '../assets/';
 
 @Component({
@@ -27,5 +28,9 @@ export class AppComponent {
       maxDistance: 17.00,
       spacing: 14.00
     })
+  }
+
+  constructor(private router: Router) {
+    this.router.navigate(['login']);
   }
 }

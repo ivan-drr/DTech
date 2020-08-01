@@ -1,6 +1,6 @@
 <mat-card class="login-card">
   <mat-card-header>
-    <mat-card-title>Login Form</mat-card-title>
+    <img id="login-icon" src={{AccessIcon}} alt="Access Icon">
   </mat-card-header>
   <mat-card-content>
     <form class="sign-in-form">
@@ -27,13 +27,13 @@
   </mat-card-content>
   <mat-card-actions>
     <div class="login-actions">
-      <button mat-raised-button color="primary">Login</button>
-      <button mat-raised-button color="accent">Sign Up</button>
+      <button mat-raised-button color="accent" routerLink="/signup">Go to Sign Up</button>
+      <button mat-raised-button color="primary" routerLink="/app">Login</button>
     </div>
   </mat-card-actions>
   <mat-card-footer>
     <mat-card-subtitle>Or Sign Up using</mat-card-subtitle>
-    <button id="google-signin" mat-button aria-label="Google plus sign in">
+    <button id="google-signin" routerLink="/google-login" mat-button aria-label="Google plus sign in">
       <img src={{GooglePlusImage}} alt="google-plus"/>
     </button>
   </mat-card-footer>

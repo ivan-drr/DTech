@@ -9,13 +9,20 @@ import { ExitBtnComponent } from './exit-btn/exit-btn.component';
 import { SignOutBtnComponent } from './sign-out-btn/sign-out-btn.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
 
 
 @NgModule({
   declarations: [ControlBtnComponent, GarageBtnComponent, TvBtnComponent, ExitBtnComponent, SignOutBtnComponent, SidenavComponent],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule
   ],
 })
 export class SidenavModule { }
