@@ -4,44 +4,49 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from '@app/@core/page-not-found/page-not-found.component';
 import { SigninFormComponent } from '@app/login/signin-form/signin-form.component';
 import { SignupFormComponent } from '@app/login/signup-form/signup-form.component';
-import { SigninGoogleFormComponent } from '@app/login/signin-google-form/signin-google-form.component';
 import { SidenavComponent } from '@app/sidenav/sidenav/sidenav.component';
-import { ControlPageComponent } from '@app/control/control-page/control-page.component';
-import { GaragePageComponent } from '@app/garage/garage-page/garage-page.component';
-import { TvPageComponent } from '@app/tv/tv-page/tv-page.component';
+import { RoomPageComponent } from '@app/room/room-page/room-page.component';
+import { LightPageComponent } from '@app/light/light-page/light-page.component';
+import { BlindPageComponent } from '@app/blind/blind-page/blind-page.component';
+import { RemotePageComponent } from '@app/remote/remote-page/remote-page.component';
 
 const routes: Routes = [
   {
     path: '',
     children: [
       { path: 'login', component: SigninFormComponent },
-      { path: 'signup', component: SignupFormComponent },
-      { path: 'google-login', component: SigninGoogleFormComponent }
+      { path: 'signup', component: SignupFormComponent }
     ],
   },
   {
     path: 'app',
     component: SidenavComponent,
     children: [
-      { path: 'control', component: ControlPageComponent },
-      { path: 'garage', component: GaragePageComponent },
-      { path: 'tv', component: TvPageComponent }
+      { path: 'rooms', component: RoomPageComponent },
+      { path: 'lights', component: LightPageComponent },
+      { path: 'blinds', component: BlindPageComponent },
+      { path: 'remotes', component: RemotePageComponent },
     ]
   },
   {
-    path: 'app/control',
+    path: 'app/rooms',
     loadChildren: () =>
-      import('./control/control.module').then(c => c.ControlModule),
+      import('./room/room.module').then(c => c.RoomModule),
   },
   {
-    path: 'app/garage',
+    path: 'app/lights',
     loadChildren: () =>
-      import('./garage/garage.module').then(c => c.GarageModule),
+      import('./light/light.module').then(c => c.LightModule),
   },
   {
-    path: 'app/tv',
+    path: 'app/blinds',
     loadChildren: () =>
-      import('./tv/tv.module').then(c => c.TvModule),
+      import('./blind/blind.module').then(c => c.BlindModule),
+  },
+  {
+    path: 'app/remotes',
+    loadChildren: () =>
+      import('./remote/remote.module').then(c => c.RemoteModule),
   },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', redirectTo: '/404' }
