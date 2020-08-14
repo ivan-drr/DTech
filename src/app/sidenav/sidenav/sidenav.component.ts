@@ -12,22 +12,26 @@ export class SidenavComponent implements OnInit {
   @ViewChild('drawer') private drawer: MatDrawer;
   NavigationIcon = assets + "icons/navigation.png";
 
-  sidenavHide = true;
   showFiller = false;
   constructor() { }
 
   ngOnInit(): void {
-    Hammer(document.body).on("panright", () => {
-      if (this.sidenavHide) {
-        this.drawer.toggle();
-        this.sidenavHide = !this.sidenavHide;
+    const hammer = Hammer(document.body);
+    hammer.threshold = 5;
+
+    const isOnColorPicker = event => {
+      return event.target.className.includes("color-hue");
+    }
+
+    Hammer(document.body).on("panright", event => {
+      if (!this.drawer.opened && !isOnColorPicker(event)) {
+        this.drawer.open();
       }
     });
 
-    Hammer(document.body).on("panleft", () => {
-      if (!this.sidenavHide) {
-        this.drawer.toggle();
-        this.sidenavHide = !this.sidenavHide;
+    Hammer(document.body).on("panleft", event => {
+      if (this.drawer.opened && !isOnColorPicker(event)) {
+        this.drawer.close();
       }
     });
   }
