@@ -10,7 +10,15 @@ import { SidenavModule } from '@app/sidenav/sidenav.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '@env/environment';
+import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
+import { environment as env } from '@env/environment';
+
+const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  hostname: env.mqtt.server,
+  port: env.mqtt.port,
+  protocol: (env.mqtt.protocol === "wss") ? "wss" : "ws",
+  path: '',
+};
 
 @NgModule({
   declarations: [
@@ -21,10 +29,11 @@ import { environment } from '@env/environment';
     AppRoutingModule,
     BrowserAnimationsModule,
     ScrollingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: env.production }),
     LoginModule,
     SidenavModule,
-    HttpClientModule
+    HttpClientModule,
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS)
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -11,7 +11,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ColorSketchModule } from 'ngx-color/sketch';
 
-
 @NgModule({
   declarations: [AddLightBtnComponent, LightCardComponent, LightPageComponent],
   imports: [
@@ -22,6 +21,7 @@ import { ColorSketchModule } from 'ngx-color/sketch';
     MatSlideToggleModule,
     MatExpansionModule,
     ColorSketchModule 
-  ]
+  ],
+  bootstrap: [LightPageComponent]
 })
 export class LightModule { }

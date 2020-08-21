@@ -24,42 +24,53 @@ app.use((req, res, next) => {
 
 const Schema = mongo.Schema;
 const roomSchema = new Schema({
+  id: { type: String },
   name: { type: String },
 }, { versionKey: false });
 
 const lightSchema = new Schema({
+  id: { type: String },
   name: { type: String },
   room: { type: String },
   state: { type: Boolean },
-  switch: { type: Boolean },
   brightness: { type: Number },
-  sensor: {
+  hexColor: { type: String },
+  pirSensor: {
     active: { type: Boolean },
     detect: {type: Boolean},
     transitarea: { type: Boolean }
-  }
+  },
+  ldrSensor: { type: Number }
 }, { versionKey: false });
 
 const blindSchema = new Schema({
+  id: { type: String },
   name: { type: String },
   room: { type: String },
   opened: { type: Boolean },
   closed: { type: Boolean },
   running: {type: Boolean},
-  //open: { type: Boolean },
-  //close: { type: Boolean }
+  rainSensor: { type: Boolean }
+}, { versionKey: false });
+
+const tempSensorSchema = new Schema({
+  id: { type: String },
+  room: { type: String },
+  device: { type: String },
+  temperature: { type: String }
 }, { versionKey: false });
 
 const remotedeviceSchema = new Schema({
+  id: { type: String },
   name: { type: String },
   room: { type: String },
-  code: { type: String },
-  request: {type: Boolean}
+  buttons: { type: Array }
 }, { versionKey: false });
 
 const room = mongo.model('room', roomSchema, 'room');
 const light = mongo.model('light', lightSchema, 'light');
 const blind = mongo.model('blind', blindSchema, 'blind');
+const tempSensor = mongo.model('tempSensor', tempSensorSchema, 'tempSensor');
 const remotedevice = mongo.model('remotedevice', remotedeviceSchema, 'remotedevice');
 
 
@@ -87,35 +98,21 @@ app.put('/mongo/changeRoomState', (req, res) => {
         return false;
       }
 
-      try {
-        const lightChanged = spawn('python', [SCRIPTS_PATH + 'change-room-state.py', req.body.name]);
-        lightChanged.stdout.on('data', data => { 
-          const hardwareWorks = data.toString().replace(/\s/g,'') === 'True';
-          if (hardwareWorks) {
-            res.send({"ok": true});
-            return true;
-          } 
-  
-          room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, (err, doc) => {
-            if (err) {
-              res.send({"ok": false, "error": 'Error re-updating state of ' + req.body.name 
-                + '(Please re-run this request to fix this database value): ' + err});
-              return false;
-            } else if (doc === null) {
-              res.send({"ok": false, "error": "Room " + req.body.name + " don't exist"});
-              return false;
-            }
-          });
-          
-          res.send({"ok": false, "error": "Hardware error: Light of " + req.body.name + "couldn't change state"});
-          return false
-        });
-      } catch (error) {
-        res.send({"ok": false, "error": "Error on script: " + SCRIPTS_PATH + "change-room-state.py" + ": " + error});
-        return false;
-      }
-    });  
-  });
+      room.updateOne({"name": req.body.name}, {"$set": {"state": !doc.state}}, (err, doc) => {
+        if (err) {
+          res.send({"ok": false, "error": 'Error re-updating state of ' + req.body.name 
+            + '(Please re-run this request to fix this database value): ' + err});
+          return false;
+        } else if (doc === null) {
+          res.send({"ok": false, "error": "Room " + req.body.name + " don't exist"});
+          return false;
+        }
+      });
+      
+      res.send({"ok": false, "error": "Hardware error: Light of " + req.body.name + "couldn't change state"});
+      return false;
+    });
+  });  
 });
 
 app.listen(8080), () => {
